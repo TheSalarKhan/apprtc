@@ -12,7 +12,7 @@ REDIRECT_DOMAINS =  [
   'apprtc.amkserve.net.com'
 ]
 # URL which we should redirect to if matching in REDIRECT_DOMAINS.
-REDIRECT_URL = 'http://apprtc.amkserve.net'
+REDIRECT_URL = 'http://localhost'
 
 ROOM_MEMCACHE_EXPIRATION_SEC = 60 * 60 * 24
 MEMCACHE_RETRY_LIMIT = 100
@@ -64,11 +64,11 @@ WSS_INSTANCE_HOST_KEY = 'host_port_pair'
 WSS_INSTANCE_NAME_KEY = 'vm_name'
 WSS_INSTANCE_ZONE_KEY = 'zone'
 WSS_INSTANCES = [{
-    WSS_INSTANCE_HOST_KEY: 'apprtc.amkserve.net:8089',
+    WSS_INSTANCE_HOST_KEY: 'localhost:8089',
     WSS_INSTANCE_NAME_KEY: 'wsserver-std',
     WSS_INSTANCE_ZONE_KEY: 'us-central1-a'
 },{
-    WSS_INSTANCE_HOST_KEY: 'apprtc.amkserve.net:8089',
+    WSS_INSTANCE_HOST_KEY: 'localhost:8089',
     WSS_INSTANCE_NAME_KEY: 'wsserver-std-2',
     WSS_INSTANCE_ZONE_KEY: 'us-central1-f'
 }

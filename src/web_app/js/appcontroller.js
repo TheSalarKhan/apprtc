@@ -129,7 +129,7 @@ var AppController = function(loadingParams) {
         recentlyUsedList.pushRecentRoom(this.loadingParams_.roomId);
         this.finishCallSetup_(this.loadingParams_.roomId);
       }.bind(this);
-       // If bypass is true then start the call	
+      // If bypass is true then start the call
       if (this.loadingParams_.bypassJoinConfirmation) {
         $(UI_CONSTANTS.confirmJoinButton).onclick();
       }
@@ -437,9 +437,7 @@ AppController.prototype.onKeyPress_ = function(event) {
 
 AppController.prototype.pushCallNavigation_ = function(roomId, roomLink) {
   if (!isChromeApp()) {
-//    window.history.pushState({'roomId': roomId, 'roomLink': roomLink}, roomId,
-//        roomLink);
-	;
+    console.log('!ChromeApp');
   }
 };
 
