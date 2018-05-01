@@ -129,7 +129,7 @@ var AppController = function(loadingParams) {
         recentlyUsedList.pushRecentRoom(this.loadingParams_.roomId);
         this.finishCallSetup_(this.loadingParams_.roomId);
       }.bind(this);
-
+       // If bypass is true then start the call	
       if (this.loadingParams_.bypassJoinConfirmation) {
         $(UI_CONSTANTS.confirmJoinButton).onclick();
       }
@@ -437,8 +437,9 @@ AppController.prototype.onKeyPress_ = function(event) {
 
 AppController.prototype.pushCallNavigation_ = function(roomId, roomLink) {
   if (!isChromeApp()) {
-    window.history.pushState({'roomId': roomId, 'roomLink': roomLink}, roomId,
-        roomLink);
+//    window.history.pushState({'roomId': roomId, 'roomLink': roomLink}, roomId,
+//        roomLink);
+	;
   }
 };
 
@@ -566,6 +567,7 @@ AppController.prototype.loadUrlParams_ = function() {
   this.loadingParams_.videoRecvBitrate = urlParams['vrbr'];
   this.loadingParams_.videoRecvCodec = urlParams['vrc'] || DEFAULT_VIDEO_CODEC;
   this.loadingParams_.videoFec = urlParams['videofec'];
+  this.loadingParams_.bypassJoinConfirmation = urlParams['bypass'] || false;
   /* eslint-enable dot-notation */
 };
 

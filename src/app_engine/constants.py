@@ -1,3 +1,4 @@
+
 # Copyright 2015 Google Inc. All Rights Reserved.
 
 """AppRTC Constants.
@@ -8,10 +9,10 @@ import os
 
 # Deprecated domains which we should to redirect to REDIRECT_URL.
 REDIRECT_DOMAINS =  [
-  'apprtc.appspot.com', 'apprtc.webrtc.org', 'www.appr.tc'
+  'apprtc.amkserve.net.com'
 ]
 # URL which we should redirect to if matching in REDIRECT_DOMAINS.
-REDIRECT_URL = 'https://appr.tc'
+REDIRECT_URL = 'http://apprtc.amkserve.net'
 
 ROOM_MEMCACHE_EXPIRATION_SEC = 60 * 60 * 24
 MEMCACHE_RETRY_LIMIT = 100
@@ -38,7 +39,23 @@ ICE_SERVER_OVERRIDE = None
 #   }
 # ]
 
-ICE_SERVER_BASE_URL = 'https://networktraversal.googleapis.com'
+ICE_SERVER_OVERRIDE  = [
+  {
+    "urls": [
+      "turn:dev-dc.amkserve.net:3478"
+   ],
+    "username": "test",
+    "credential": "test"
+  },
+  {
+    "urls": [
+      "stun:stun.services.mozilla.com",
+	  "stun:stun.l.google.com:19302"
+    ]
+  }
+]
+
+ICE_SERVER_BASE_URL =  'https://networktraversal.googleapis.com'
 ICE_SERVER_URL_TEMPLATE = '%s/v1alpha/iceconfig?key=%s'
 ICE_SERVER_API_KEY = os.environ.get('ICE_SERVER_API_KEY')
 
@@ -47,14 +64,15 @@ WSS_INSTANCE_HOST_KEY = 'host_port_pair'
 WSS_INSTANCE_NAME_KEY = 'vm_name'
 WSS_INSTANCE_ZONE_KEY = 'zone'
 WSS_INSTANCES = [{
-    WSS_INSTANCE_HOST_KEY: 'apprtc-ws.webrtc.org:443',
+    WSS_INSTANCE_HOST_KEY: 'apprtc.amkserve.net:8089',
     WSS_INSTANCE_NAME_KEY: 'wsserver-std',
     WSS_INSTANCE_ZONE_KEY: 'us-central1-a'
-}, {
-    WSS_INSTANCE_HOST_KEY: 'apprtc-ws-2.webrtc.org:443',
+},{
+    WSS_INSTANCE_HOST_KEY: 'apprtc.amkserve.net:8089',
     WSS_INSTANCE_NAME_KEY: 'wsserver-std-2',
     WSS_INSTANCE_ZONE_KEY: 'us-central1-f'
-}]
+}
+]
 
 WSS_HOST_PORT_PAIRS = [ins[WSS_INSTANCE_HOST_KEY] for ins in WSS_INSTANCES]
 
