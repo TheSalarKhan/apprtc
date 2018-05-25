@@ -367,7 +367,7 @@ Call.prototype.maybeGetMedia_ = function() {
                           device.label === this.params_.videoSrc;
                   }.bind(this));
                   if (selectedVideo) {
-                      constraints.video.deviceId = {exact: selectedVideo.deviceId};
+                      constraints.video = {deviceId: {exact: selectedVideo.deviceId}};
                   }
               }
               // check if audioSec is defined then
@@ -378,7 +378,7 @@ Call.prototype.maybeGetMedia_ = function() {
                           device.label === this.params_.audioSrc;
                   }.bind(this));
                   if (selectedAudio) {
-                      constraints.audio.deviceId = {exact: selectedAudio.deviceId};
+                      constraints.audio = {deviceId: {exact: selectedAudio.deviceId}};
                   }
               }
               return navigator.mediaDevices.getUserMedia(constraints);
