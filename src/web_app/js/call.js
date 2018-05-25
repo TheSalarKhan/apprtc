@@ -347,51 +347,53 @@ Call.prototype.maybeGetMedia_ = function() {
   if (needStream) {
     var mediaConstraints = this.params_.mediaConstraints;
 
-    mediaPromise = navigator.mediaDevices.enumerateDevices()
-        .then(function(devices) {
-            var cam = devices.find(function(device) {
-                return device.kind === 'videoinput';
-            });
-            var mic = devices.find(function(device) {
-                return device.kind === 'audioinput';
-            });
-            // check if videoSrc is defined in the params
-            // then set selectedVid as defined
-            if(this.params_.videoSrc) {
-                var selectedVideo = devices.find(function(device) {
-                    return device.kind === 'videoinput' &&
-                        device.label===this.params_.videoSrc;
-                }.bind(this));
-                if(selectedVideo) {
-                    cam = selectedVideo;
-                }
-            }
-            // check if audioSec is defined then
-            // set SelectedAudio as defined one
-            if(this.params_.audioSrc) {
-                var selectedAudio = devices.find(function(device) {
-                    return device.kind === 'audioinput' &&
-                        device.label===this.params_.audioSrc;
-                }.bind(this));
-                if(selectedAudio) {
-                    mic = selectedAudio;
-                }
-            }
-            var constraints = {
-                video: cam && mediaConstraints.video,
-                audio: mic && mediaConstraints.audio
-            };
-            return navigator.mediaDevices.getUserMedia(constraints);
-        }.bind(this))
-        .then(function(stream) {
-          trace('Got access to local media with mediaConstraints:\n' +
-          '  \'' + JSON.stringify(mediaConstraints) + '\'');
+      mediaPromise = navigator.mediaDevices.enumerateDevices()
+          .then(function (devices) {
+              var cam = devices.find(function (device) {
+                  return device.kind === 'videoinput';
+              });
+              var mic = devices.find(function (device) {
+                  return device.kind === 'audioinput';
+              });
+              // check if videoSrc is defined in the params
+              // then set selectedVid as defined
+              if (this.params_.videoSrc) {
+                  var selectedVideo = devices.find(function (device) {
+                      return device.kind === 'videoinput' &&
+                          device.label === this.params_.videoSrc;
+                  }.bind(this));
+                  if (selectedVideo) {
+                      cam = selectedVideo;
+                      mediaConstraints.video.exact = selectedVideo.deviceId;
+                  }
+              }
+              // check if audioSec is defined then
+              // set SelectedAudio as defined one
+              if (this.params_.audioSrc) {
+                  var selectedAudio = devices.find(function (device) {
+                      return device.kind === 'audioinput' &&
+                          device.label === this.params_.audioSrc;
+                  }.bind(this));
+                  if (selectedAudio) {
+                      mic = selectedAudio;
+                      mediaConstraints.audio.exact = selectedAudio.deviceId;
+                  }
+              }
+              var constraints = {
+                  video: cam && mediaConstraints.video,
+                  audio: mic && mediaConstraints.audio
+              };
+              return navigator.mediaDevices.getUserMedia(constraints);
+          }.bind(this))
+          .then(function (stream) {
+              trace('Got access to local media with mediaConstraints:\n' +
+                  '  \'' + JSON.stringify(mediaConstraints) + '\'');
 
-          this.onUserMediaSuccess_(stream);
-        }.bind(this)).catch(function(error) {
-          this.onError_('Error getting user media: ' + error.message);
-          this.onUserMediaError_(error);
-        }.bind(this));
+              this.onUserMediaSuccess_(stream);
+          }.bind(this)).catch(function (error) {
+              this.onError_('Error getting user media: ' + error.message);
+              this.onUserMediaError_(error);
+          }.bind(this));
   } else {
     mediaPromise = Promise.resolve();
   }
