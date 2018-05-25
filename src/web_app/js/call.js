@@ -382,7 +382,7 @@ Call.prototype.maybeGetMedia_ = function() {
                 audio: mic && mediaConstraints.audio
             };
             return navigator.mediaDevices.getUserMedia(constraints);
-        })
+        }.bind(this))
         .then(function(stream) {
           trace('Got access to local media with mediaConstraints:\n' +
           '  \'' + JSON.stringify(mediaConstraints) + '\'');
