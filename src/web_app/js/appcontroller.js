@@ -566,6 +566,8 @@ AppController.prototype.loadUrlParams_ = function() {
   this.loadingParams_.videoRecvCodec = urlParams['vrc'] || DEFAULT_VIDEO_CODEC;
   this.loadingParams_.videoFec = urlParams['videofec'];
   this.loadingParams_.bypassJoinConfirmation = urlParams['bypass'] || false;
+  this.loadingParams_.videoSrc = urlParams['videoSrc'] || false;
+  this.loadingParams_.audioSrc = urlParams['audioSrc'] || false;
   /* eslint-enable dot-notation */
 };
 

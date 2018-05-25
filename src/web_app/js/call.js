@@ -360,6 +360,28 @@ Call.prototype.maybeGetMedia_ = function() {
                 var mic = devices.find(function(device) {
                   return device.kind === 'audioinput';
                 });
+                // check if videoSrc is defined in the params
+                // then set selectedVid as defined
+                if(this.params_.videoSrc) {
+                  var selectedVideo = devices.find(function(device) {
+                    return device.kind === 'videoinput' &&
+                      device.label===this.params_.videoSrc;
+                  });
+                  if(selectedVideo) {
+                    cam = selectedVideo;
+                  }
+                }
+                // check if audioSec is defined then
+                // set SelectedAudio as defined one
+                if(this.params_.audioSrc) {
+                  var selectedAudio = devices.find(function(device) {
+                    return device.kind === 'audioinput' &&
+                      device.label===this.params_.audioSrc;
+                  });
+                  if(selectedAudio) {
+                    mic = selectedAudio;
+                  }
+                }
                 var constraints = {
                   video: cam && mediaConstraints.video,
                   audio: mic && mediaConstraints.audio
