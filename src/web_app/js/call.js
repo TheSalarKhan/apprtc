@@ -364,7 +364,7 @@ Call.prototype.maybeGetMedia_ = function() {
                   }.bind(this));
                   if (selectedVideo) {
                       cam = selectedVideo;
-                      mediaConstraints.video.exact = selectedVideo.deviceId;
+                      mediaConstraints.video.deviceId = {exact: selectedVideo.deviceId};
                   }
               }
               // check if audioSec is defined then
@@ -376,7 +376,7 @@ Call.prototype.maybeGetMedia_ = function() {
                   }.bind(this));
                   if (selectedAudio) {
                       mic = selectedAudio;
-                      mediaConstraints.audio.exact = selectedAudio.deviceId;
+                      mediaConstraints.audio.deviceId = {exact: selectedAudio.deviceId};
                   }
               }
               var constraints = {
