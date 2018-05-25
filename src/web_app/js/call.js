@@ -361,7 +361,7 @@ Call.prototype.maybeGetMedia_ = function() {
                 var selectedVideo = devices.find(function(device) {
                     return device.kind === 'videoinput' &&
                         device.label===this.params_.videoSrc;
-                });
+                }.bind(this));
                 if(selectedVideo) {
                     cam = selectedVideo;
                 }
@@ -372,7 +372,7 @@ Call.prototype.maybeGetMedia_ = function() {
                 var selectedAudio = devices.find(function(device) {
                     return device.kind === 'audioinput' &&
                         device.label===this.params_.audioSrc;
-                });
+                }.bind(this));
                 if(selectedAudio) {
                     mic = selectedAudio;
                 }
