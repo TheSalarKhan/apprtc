@@ -355,6 +355,10 @@ Call.prototype.maybeGetMedia_ = function() {
               var mic = devices.find(function (device) {
                   return device.kind === 'audioinput';
               });
+              var constraints = {
+                  video: cam && mediaConstraints.video,
+                  audio: mic && mediaConstraints.audio
+              };
               // check if videoSrc is defined in the params
               // then set selectedVid as defined
               if (this.params_.videoSrc) {
@@ -363,8 +367,7 @@ Call.prototype.maybeGetMedia_ = function() {
                           device.label === this.params_.videoSrc;
                   }.bind(this));
                   if (selectedVideo) {
-                      cam = selectedVideo;
-                      mediaConstraints.video.deviceId = {exact: selectedVideo.deviceId};
+                      constraints.video.deviceId = {exact: selectedVideo.deviceId};
                   }
               }
               // check if audioSec is defined then
@@ -375,14 +378,9 @@ Call.prototype.maybeGetMedia_ = function() {
                           device.label === this.params_.audioSrc;
                   }.bind(this));
                   if (selectedAudio) {
-                      mic = selectedAudio;
-                      mediaConstraints.audio.deviceId = {exact: selectedAudio.deviceId};
+                      constraints.audio.deviceId = {exact: selectedAudio.deviceId};
                   }
               }
-              var constraints = {
-                  video: cam && mediaConstraints.video,
-                  audio: mic && mediaConstraints.audio
-              };
               return navigator.mediaDevices.getUserMedia(constraints);
           }.bind(this))
           .then(function (stream) {
