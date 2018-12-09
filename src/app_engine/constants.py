@@ -49,7 +49,7 @@ ICE_SERVER_OVERRIDE  = [
   },
   {
     "urls": [
-      "stun:stun.services.mozilla.com",
+      "stun:stun.zoiper.com:3478",
 	  "stun:stun.l.google.com:19302"
     ]
   }
