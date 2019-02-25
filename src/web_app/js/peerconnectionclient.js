@@ -50,6 +50,7 @@ var PeerConnectionClient = function(params, startTime) {
       sessionId: this.params_.roomId
     }
   }));
+  this.getSenders = this.getSenders.bind(this);
 
   this.hasRemoteSdp_ = false;
   this.messageQueue_ = [];
@@ -82,6 +83,20 @@ PeerConnectionClient.prototype.addStream = function(stream) {
   }
   this.pc_.addStream(stream);
 };
+
+PeerConnectionClient.prototype.removeStream = function(stream) {
+  if (!this.pc_) {
+    return;
+  }
+  this.pc_.removeStream(stream);
+};
+
+PeerConnectionClient.prototype.getSenders = function() {
+  if (!this.pc_) {
+    return;
+  }
+  return this.pc_.getSenders();
+}
 
 PeerConnectionClient.prototype.startAsCaller = function(offerOptions) {
   if (!this.pc_) {

@@ -238,3 +238,16 @@ function trace(text) {
     console.log(text);
   }
 }
+
+function filterCameraDevices(deviceInfos) {
+  // Handles being called several times to update labels. Preserve values.
+  var cameraDevices = [];
+  var i = 0
+  for (; i !== deviceInfos.length; ++i) {
+    var deviceInfo = deviceInfos[i];
+    if (deviceInfo.kind === 'videoinput') {
+      cameraDevices.push(deviceInfo);
+    }
+  }
+  return cameraDevices;
+}

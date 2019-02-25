@@ -55,6 +55,8 @@ var AppController = function(loadingParams) {
   trace('Initializing; server= ' + loadingParams.roomServer + '.');
   trace('Initializing; room=' + loadingParams.roomId + '.');
 
+  this.onLocalStreamAdded_ = this.onLocalStreamAdded_.bind(this);
+
   this.hangupSvg_ = $(UI_CONSTANTS.hangupSvg);
   this.icons_ = $(UI_CONSTANTS.icons);
   this.localVideo_ = $(UI_CONSTANTS.localVideo);
@@ -142,6 +144,10 @@ var AppController = function(loadingParams) {
   }.bind(this));
 };
 
+AppController.prototype.getCamerasListPromise = function() {
+  return navigator.mediaDevices.enumerateDevices().then(filterCameraDevices);
+}
+
 AppController.prototype.createCall_ = function() {
   var privacyLinks = $(UI_CONSTANTS.privacyLinks);
   this.hide_(privacyLinks);
@@ -167,6 +173,10 @@ AppController.prototype.createCall_ = function() {
   this.call_.onremotesdpset = this.onRemoteSdpSet_.bind(this);
   this.call_.onremotestreamadded = this.onRemoteStreamAdded_.bind(this);
   this.call_.onlocalstreamadded = this.onLocalStreamAdded_.bind(this);
+  this.call_.onCameraSwitched = function(stream) {
+    this.onLocalStreamAdded_(stream);
+    this.miniVideo_.srcObject = this.localVideo_.srcObject;
+  }.bind(this);
 
   this.call_.onsignalingstatechange =
       this.infoBox_.updateInfoDiv.bind(this.infoBox_);
@@ -435,6 +445,12 @@ AppController.prototype.onKeyPress_ = function(event) {
   }
 };
 
+
+AppController.prototype.switchCamera = function(deviceId) {
+  if(this.call_) {
+    this.call_.switchCamera(deviceId);
+  }
+}
 AppController.prototype.pushCallNavigation_ = function(roomId, roomLink) {
   if (!isChromeApp()) {
     console.log('!ChromeApp');
