@@ -261,17 +261,40 @@ Call.prototype.switchCamera = function (deviceId) {
   };
   return navigator.mediaDevices.getUserMedia(constraints)
     .then(function (stream) {
+
+      // Get the video track for the requested camera
+      let videoTracks = stream.getVideoTracks();
+      let videoTrackToSwitchTo = videoTracks ? videoTracks[0] : null;
+      if(!videoTrackToSwitchTo) {
+        console.error(`No media tracks found for deviceId ${deviceId}`);
+        return;
+      }
+
+      // Get the current video sender
+      let senders = this.pcClient_.getSenders();
+      let videoSender = senders ?  senders.find(function (s) {
+        return s.track.kind == "video";
+      }.bind(this)) : null;
+      if(!videoSender) {
+        console.error("No video sender found.");
+        return;
+      }
+
+      // Replace the track in the video sender.
       console.log("Switching camera to " + deviceId);
-      var senders = this.pcClient_.getSenders()
-      if(this.onCameraSwitched) {
-        this.onCameraSwitched(stream);
-      }      
-      stream.getVideoTracks().forEach(function (track) {
-        var sender = senders.find(function (s) {
-          return s.track.kind == track.kind;
-        }.bind(this));
-        sender.replaceTrack(track);
-      })
+      videoSender.replaceTrack(videoTrackToSwitchTo).then(() => {
+
+        // After the track has been removed successfully replace the track
+        // in the local stream.
+        let oldVideoStreamTrack = this.localStream_.getVideoTracks()[0];
+        // After a successful switch we remove the old stream and add the new one.
+        this.localStream_.removeTrack(oldVideoStreamTrack);
+        console.log(oldVideoStreamTrack.id);
+        this.localStream_.addTrack(videoTrackToSwitchTo);
+        console.log(this.localStream_.getVideoTracks()[0].id);
+      });
+
+
     }.bind(this))
     .catch(console.error);
 };
