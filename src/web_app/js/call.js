@@ -289,9 +289,7 @@ Call.prototype.switchCamera = function (deviceId) {
         let oldVideoStreamTrack = this.localStream_.getVideoTracks()[0];
         // After a successful switch we remove the old stream and add the new one.
         this.localStream_.removeTrack(oldVideoStreamTrack);
-        console.log(oldVideoStreamTrack.id);
         this.localStream_.addTrack(videoTrackToSwitchTo);
-        console.log(this.localStream_.getVideoTracks()[0].id);
       });
 
 
