@@ -263,16 +263,16 @@ Call.prototype.switchCamera = function (deviceId) {
     .then(function (stream) {
 
       // Get the video track for the requested camera
-      let videoTracks = stream.getVideoTracks();
-      let videoTrackToSwitchTo = videoTracks ? videoTracks[0] : null;
+      var videoTracks = stream.getVideoTracks();
+      var videoTrackToSwitchTo = videoTracks ? videoTracks[0] : null;
       if(!videoTrackToSwitchTo) {
         console.error(`No media tracks found for deviceId ${deviceId}`);
         return;
       }
 
       // Get the current video sender
-      let senders = this.pcClient_.getSenders();
-      let videoSender = senders ?  senders.find(function (s) {
+      var senders = this.pcClient_.getSenders();
+      var videoSender = senders ?  senders.find(function (s) {
         return s.track.kind == "video";
       }.bind(this)) : null;
       if(!videoSender) {
@@ -286,7 +286,7 @@ Call.prototype.switchCamera = function (deviceId) {
 
         // After the track has been removed successfully replace the track
         // in the local stream.
-        let oldVideoStreamTrack = this.localStream_.getVideoTracks()[0];
+        var oldVideoStreamTrack = this.localStream_.getVideoTracks()[0];
         // After a successful switch we remove the old stream and add the new one.
         this.localStream_.removeTrack(oldVideoStreamTrack);
         this.localStream_.addTrack(videoTrackToSwitchTo);
